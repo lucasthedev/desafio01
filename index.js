@@ -51,4 +51,18 @@ app.delete('/projects/:id', (req, resp) => {
     return resp.json(projetos);
 });
 
+app.post('/projects/:id/tasks', (req, resp)=>{
+    const {id} = req.body;    
+    const {tasks} = req.body;
+
+    for(let i = 0; i < projetos.length; i++){
+        if(projetos[i].id == id){
+            projetos[i].tasks = tasks;
+        }
+    }
+
+    return resp.json(projetos);
+
+});
+
 app.listen(3001);
