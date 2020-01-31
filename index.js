@@ -52,7 +52,7 @@ app.delete('/projects/:id', (req, resp) => {
 });
 
 app.post('/projects/:id/tasks', (req, resp)=>{
-    const {id} = req.body;    
+    const {id} = req.params;    
     const {tasks} = req.body;
 
     for(let i = 0; i < projetos.length; i++){
