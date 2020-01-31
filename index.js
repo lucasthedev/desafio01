@@ -3,7 +3,18 @@ const app = express();
 
 app.use(express.json());
 
-const projetos = [{}];
+
+
+function checkIdExists(req, resp , next){
+    for(let i = 0; i < projetos.length; i++){
+        if(req.params.id == projetos[i].id){
+            return next();
+        }
+    }
+    return resp.status(400).json({error: "o projeto selecionado não foi encontrado."});
+}
+
+const projetos = [];
 
 app.post('/projects', (req, resp)=>{
     const {id} = req.body;
@@ -25,7 +36,7 @@ app.get('/projects', (req, resp) =>{
     return resp.json(projetos);
 });
 
-app.put('/projects/:id', (req, resp) =>{
+app.put('/projects/:id', checkIdExists, (req, resp) =>{
     const {title} = req.body;
     const {id} = req.params;
 
@@ -39,7 +50,7 @@ app.put('/projects/:id', (req, resp) =>{
 
 });
 
-app.delete('/projects/:id', (req, resp) => {
+app.delete('/projects/:id', checkIdExists, (req, resp) => {
     const {id} = req.params;
 
     for(let i = 0; i < projetos.length; i++){
@@ -51,7 +62,7 @@ app.delete('/projects/:id', (req, resp) => {
     return resp.json(projetos);
 });
 
-app.post('/projects/:id/tasks', (req, resp)=>{
+app.post('/projects/:id/tasks', checkIdExists, (req, resp)=>{
     const {id} = req.params;    
     const {tasks} = req.body;
 
