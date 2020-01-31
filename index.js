@@ -3,7 +3,13 @@ const app = express();
 
 app.use(express.json());
 
-
+var contador = 0;
+app.use((req, resp, next)=>{
+    
+    contador++;
+    console.log(`Total de requisições é de: ${contador}`);
+    return next();
+});
 
 function checkIdExists(req, resp , next){
     for(let i = 0; i < projetos.length; i++){
